@@ -1,0 +1,1 @@
+Clone the repo and open terminal press npm init for both inside fronend and backend and after node_modules have been made open both folders in different terminals -> For Bckend enter nodemon in terminal -> For Frontend enter npm start in terminal 
