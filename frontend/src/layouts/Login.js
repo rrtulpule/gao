@@ -48,9 +48,8 @@ class Login extends Component {
     //   });
     axios.defaults.withCredentials = true;
 
-    axios.post('http://localhost:3001/login',data)
-        .then(response => {
-            console.log("Status Code : ",response.status);
+    axios.post("http://localhost:3001/login", data).then(response => {
+      console.log("Status Code : ", response.status);
             if(response.status === 200){
                 this.setState({
                     authFlag : true
@@ -59,6 +58,7 @@ class Login extends Component {
                 this.setState({
                     authFlag : false
                 })
+               
             }
         });
    

@@ -6,6 +6,7 @@ var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var cors = require('cors');
 app.set('view engine', 'ejs');
+var {mongoose} = require('./db/mongoose');
 
 
 app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
@@ -37,11 +38,7 @@ app.use(function(req, res, next) {
       password : "admin"
   }]
 
-  var books = [
-    {"BookID" : "1", "Title" : "Book 1", "Author" : "Author 1"},
-    {"BookID" : "2", "Title" : "Book 2", "Author" : "Author 2"},
-    {"BookID" : "3", "Title" : "Book 3", "Author" : "Author 3"}
-]
+
 
 //Route to handle Post Request Call
 app.post('/login',function(req,res){
@@ -58,42 +55,48 @@ app.post('/login',function(req,res){
             })
             res.end("Successful Login");
         }
+        else{
+            res.writeHead(400,{
+                'Content-Type' : 'text/plain'
+            })
+            res.end("Successful Unsuccessful");
+        }
     })
 
     
 });
 
-app.post('/create',function(req,res){
+app.post('/addnode',function(req,res){
 
-    console.log("in post create");  
-    console.log("Req Body : ", req.body.BookID + "title : ",req.body.Title  +"Author :" ,req.body.Author);
-    console.log("Req Body : ",req.body);    
-    var newBook = {BookID : req.body.BookID, Title : req.body.Title, Author : req.body.Author};
-    books.push(newBook);
-    console.log("Books : ",JSON.stringify(books));
-    res.cookie('cookie',"admin",{maxAge: 900000, httpOnly: false, path : '/'});
-    res.writeHead(200,{
-        'Content-Type' : 'text/plain'
-    })
-    res.end("Successful Login"); 
+     console.log("in add node");  
+     console.log("Req Body : ", req.body);
+    // console.log("Req Body : ",req.body);    
+    // var newBook = {BookID : req.body.BookID, Title : req.body.Title, Author : req.body.Author};
+    // books.push(newBook);
+    // console.log("Books : ",JSON.stringify(books));
+    // res.cookie('cookie',"admin",{maxAge: 900000, httpOnly: false, path : '/'});
+    // res.writeHead(200,{
+    //     'Content-Type' : 'text/plain'
+    // })
+    // res.end("Successful Login"); 
 });
 
 app.post('/delete',function(req,res){
     
-    console.log("in post create");
-    console.log("Req Body : ",req.body.BookID);
-    var index = books.map(function(book){
-        return book.BookID;
-     }).indexOf(req.body.BookID); 
-     books.splice(index, 1);
-    console.log("Index is :" + index);
-    console.log("Books : ",JSON.stringify(books));
-    res.cookie('cookie',"admin",{maxAge: 900000, httpOnly: false, path : '/'});
-   // req.session.user = user;
-    res.writeHead(200,{
-        'Content-Type' : 'text/plain'
-    })
-    res.end("Successful Login");
+//     console.log("in post create");
+//     console.log("Req Body : ",req.body.BookID);
+//     var index = books.map(function(book){
+//         return book.BookID;
+//      }).indexOf(req.body.BookID); 
+//      books.splice(index, 1);
+//     console.log("Index is :" + index);
+//     console.log("Books : ",JSON.stringify(books));
+//     res.cookie('cookie',"admin",{maxAge: 900000, httpOnly: false, path : '/'});
+//    // req.session.user = user;
+//     res.writeHead(200,{
+//         'Content-Type' : 'text/plain'
+//     })
+//     res.end("Successful Login");
     
    
     
@@ -105,8 +108,8 @@ app.get('/home', function(req,res){
     res.writeHead(200,{
         'Content-Type' : 'application/json'
     });
-    console.log("Books : ",JSON.stringify(books));
-    res.end(JSON.stringify(books));
+    // console.log("Books : ",JSON.stringify(books));
+    // res.end(JSON.stringify(books));
     //res.send(books)
 })
 //start your server on port 3001
