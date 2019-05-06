@@ -7,6 +7,7 @@ var cookieParser = require('cookie-parser');
 var cors = require('cors');
 app.set('view engine', 'ejs');
 var {mongoose} = require('./db/mongoose');
+// var mongoose = require('mongoose');
 
 
 app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
@@ -37,6 +38,25 @@ app.use(function(req, res, next) {
       username : "admin",
       password : "admin"
   }]
+  var NodeSchema = mongoose.Schema({
+    nodeId: String,
+    installed_by: String,
+    longitude: String,
+    latitude: String,
+    city: String,
+    county: String,
+    clusterid: String,
+    postalcode: String,
+    wind: Number,
+    humidity: Number,
+    rainfall: Number,
+    temperature: Number
+}); 
+
+var ClusterSchema =mongoose.Schema({
+    clusterID: String,
+    name: String
+});
 
 
 
@@ -70,21 +90,163 @@ app.post('/addnode',function(req,res){
 
      console.log("in add node");  
      console.log("Req Body : ", req.body);
-    // console.log("Req Body : ",req.body);    
-    // var newBook = {BookID : req.body.BookID, Title : req.body.Title, Author : req.body.Author};
-    // books.push(newBook);
-    // console.log("Books : ",JSON.stringify(books));
-    // res.cookie('cookie',"admin",{maxAge: 900000, httpOnly: false, path : '/'});
-    // res.writeHead(200,{
-    //     'Content-Type' : 'text/plain'
-    // })
-    // res.end("Successful Login"); 
+    //  db.once('open', function() {
+    //     console.log("Connection Successful!");
+        
+        // define Schema
+     
+     var Node = mongoose.model('nodedata', NodeSchema, 'nodedata'); 
+     var nodesave=new Node({  nodeId: req.body.node_number,
+        installed_by: req.body.installed_by,
+        longitude: req.body.longitude,
+        latitude: req.body.latitude,
+        city: req.body.city,
+        county: req.body.county,
+        clusterid: req.body.clusterid,
+        postalcode: req.body.postalcode,
+        wind: 0,
+        humidity: 0,
+        rainfall: 0,
+        temperature: 0 ,
+     });
+     console.log("Var Body : ",nodesave);  
+     
+     nodesave.save(function (err, book) {
+        if (err)
+        {
+            
+            console.error(err);
+            res.writeHead(400,{
+                'Content-Type' : 'text/plain'
+            })
+            res.end("Unsuccessful data entry");
+        }
+        console.log(" saved to collection.");
+        res.writeHead(200,{
+            'Content-Type' : 'text/plain'
+        })
+        res.end("Successful data entry"); 
+      });
+      
+    
 });
 
-app.post('/delete',function(req,res){
+app.post('/deletenode',function(req,res){
+
+    console.log("in delete node");  
+    console.log("Req Body : ", req.body);
+    var Node = mongoose.model('nodedata', NodeSchema, 'nodedata'); 
+    Node.deleteOne({ nodeId: req.body.node_number }, function(err) {
+        if (!err) {
+            res.writeHead(400,{
+                'Content-Type' : 'text/plain'
+            })
+            res.end("Unsuccessful data entry");
+        }
+        else {
+            res.writeHead(200,{
+                'Content-Type' : 'text/plain'
+            })
+            res.end("Successful data entry"); 
+        }
+    });
+   // console.log("Req Body : ",req.body);    
+   // var newBook = {BookID : req.body.BookID, Title : req.body.Title, Author : req.body.Author};
+   // books.push(newBook);
+   // console.log("Books : ",JSON.stringify(books));
+   // res.cookie('cookie',"admin",{maxAge: 900000, httpOnly: false, path : '/'});
+   // res.writeHead(200,{
+   //     'Content-Type' : 'text/plain'
+   // })
+   // res.end("Successful Login"); 
+});
+
+app.post('/updatenode',function(req,res){
+
+    console.log("in add node");  
+    console.log("Req Body : ", req.body);
+    var query = {'nodeId':req.body.node_number};
+    var Node = mongoose.model('nodedata', NodeSchema, 'nodedata'); 
     
-//     console.log("in post create");
-//     console.log("Req Body : ",req.body.BookID);
+    Node.findByIdAndUpdate(query,{$set:{longitude: req.body.longitude,
+        latitude: req.body.latitude,
+        city: req.body.city,
+        county: req.body.county,
+        clusterid: req.body.clusterid,
+        postalcode: req.body.postalcode,}},function(err, doc){
+            if (err) return res.status(500).send( { error: err });
+              res.end("succesfully saved");
+        });
+   // console.log("Req Body : ",req.body);    
+   // var newBook = {BookID : req.body.BookID, Title : req.body.Title, Author : req.body.Author};
+   // books.push(newBook);
+   // console.log("Books : ",JSON.stringify(books));
+   // res.cookie('cookie',"admin",{maxAge: 900000, httpOnly: false, path : '/'});
+   // res.writeHead(200,{
+   //     'Content-Type' : 'text/plain'
+   // })
+   // res.end("Successful Login"); 
+});
+
+app.post('/addcluster',function(req,res){
+    
+    console.log("in add node");  
+    console.log("Req Body : ", req.body);
+    var Cluster = mongoose.model('clusterdata', ClusterSchema, 'clusterdata'); 
+    var clusteradd=new Cluster({  clusterID: req.body.clusterid,
+        name: req.body.name});
+        clusteradd.save(function (err, book) {
+            if (err)
+            {
+                
+                console.error(err);
+                res.writeHead(400,{
+                    'Content-Type' : 'text/plain'
+                })
+                res.end("Unsuccessful data entry");
+            }
+            console.log(" saved to collection.");
+            res.writeHead(200,{
+                'Content-Type' : 'text/plain'
+            })
+            res.end("Successful data entry"); 
+          });
+//     var index = books.map(function(book){
+//         return book.BookID;
+//      }).indexOf(req.body.BookID); 
+//      books.splice(index, 1);
+//     console.log("Index is :" + index);
+//     console.log("Books : ",JSON.stringify(books));
+//     res.cookie('cookie',"admin",{maxAge: 900000, httpOnly: false, path : '/'});
+//    // req.session.user = user;
+//     res.writeHead(200,{
+//         'Content-Type' : 'text/plain'
+//     })
+//     res.end("Successful Login");
+    
+   
+    
+});
+app.post('/deletecluster',function(req,res){
+    
+    console.log("in add node");  
+    console.log("Req Body : ", req.body);
+    var Cluster = mongoose.model('clusterdata', ClusterSchema, 'clusterdata'); 
+    Cluster.deleteOne({ clusterID: req.body.clusterid }, function(err) {
+        if (!err) {
+            res.writeHead(400,{
+                'Content-Type' : 'text/plain'
+            })
+            res.end("Unsuccessful data entry");
+        }
+        else {
+            res.writeHead(200,{
+                'Content-Type' : 'text/plain'
+            })
+            res.end("Successful data entry"); 
+        }
+    });
+   
 //     var index = books.map(function(book){
 //         return book.BookID;
 //      }).indexOf(req.body.BookID); 

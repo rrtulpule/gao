@@ -76,7 +76,10 @@ const CustomSkinMap = withScriptjs(
         ]
       }}
     >
-      <Marker position={{ lat: 37.336789521171994, lng: -121.89335409468015 }} />
+      <Marker
+        position={{ lat: 37.336789521171994, lng: -121.89335409468015 }}
+        
+      />
       <Marker position={{ lat: 37.14546191953482, lng: -121.41603810703123 }} />
       <Marker position={{ lat: 37.52906647204312, lng: -122.36065669390734 }} />
      

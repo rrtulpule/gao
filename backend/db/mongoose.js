@@ -8,7 +8,8 @@ mongoose.Promise = global.Promise;
 //mongodb://<dbuser>:<dbpassword>@ds135456.mlab.com:35456/linkedinp1
 
 
-mongoose.connect('mongodb+srv://rajas:rajas@cmpe281-6vnts.mongodb.net/test?retryWrites=true',function(err, db) {
+mongoose.connect('mongodb+srv://cmpe281_user:cmpe281@cluster0-8rf4e.mongodb.net/cmpe281_nodedata?retryWrites=true',
+{ useNewUrlParser: true, poolSize:100, useCreateIndex: true, },function(err, db) {
   if(err)
     console.log("Could not connect: ", err);
   else
