@@ -12,13 +12,12 @@ import Navbar from "components/Navbars/Navbar.jsx";
 import Footer from "components/Footer/Footer.jsx";
 import Sidebar from "components/Sidebar/Sidebar.jsx";
 
-
 import routes from "routes.js";
 
 import dashboardStyle from "assets/jss/material-dashboard-react/layouts/dashboardStyle.jsx";
 
 import image from "assets/img/sidebar-2.jpg";
-import logo from "assets/img/fire.jpeg";
+import logo from "assets/img/firegif.gif";
 
 const switchRoutes = (
   <Switch>
