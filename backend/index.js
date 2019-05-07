@@ -150,15 +150,7 @@ app.post('/deletenode',function(req,res){
             res.end("Successful data entry"); 
         }
     });
-   // console.log("Req Body : ",req.body);    
-   // var newBook = {BookID : req.body.BookID, Title : req.body.Title, Author : req.body.Author};
-   // books.push(newBook);
-   // console.log("Books : ",JSON.stringify(books));
-   // res.cookie('cookie',"admin",{maxAge: 900000, httpOnly: false, path : '/'});
-   // res.writeHead(200,{
-   //     'Content-Type' : 'text/plain'
-   // })
-   // res.end("Successful Login"); 
+
 });
 
 app.post('/updatenode',function(req,res){
@@ -168,7 +160,7 @@ app.post('/updatenode',function(req,res){
     var query = {'nodeId':req.body.node_number};
     var Node = mongoose.model('nodedata', NodeSchema, 'nodedata'); 
     
-    Node.findByIdAndUpdate(query,{$set:{longitude: req.body.longitude,
+    Node.findOneAndUpdate(query,{$set:{longitude: req.body.longitude,
         latitude: req.body.latitude,
         city: req.body.city,
         county: req.body.county,
