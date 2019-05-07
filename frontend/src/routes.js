@@ -28,13 +28,7 @@ const dashboardRoutes = [
     component: DashboardPage,
     layout: "/admin"
   },
-  {
-    path: "/nodeDashboard",
-    name: "Node Dashboard",
-    icon: BubbleChart,
-    component: NodeDashboard,
-    layout: "/admin"
-  },
+ 
   {
     path: "/user",
     name: "Node Management",

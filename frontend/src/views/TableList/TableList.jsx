@@ -17,8 +17,6 @@ import TableRow from "@material-ui/core/TableRow";
 import { BACKEND_HOST } from "../../host_config";
 import { TextField } from "@material-ui/core";
 import Button from "components/CustomButtons/Button.jsx";
-import NodeDashboard from "../NodeDashboard/NodeDashboard";
-import { Container, Row, Col } from "react-grid-system";
 import ReactSpeedometer from "react-d3-speedometer";
 const styles = {
   cardCategoryWhite: {
@@ -132,33 +130,103 @@ class TableList extends Component {
         </TableRow>
       );
     }
-
+    let speedometer = [];
+    if (this.state.node_number) {
+      speedometer.push(
+        <GridContainer>
+          <GridItem xs={12} sm={12} md={3}>
+            <ReactSpeedometer
+              value={this.state.data[this.state.node_number - 1].wind}
+              needleColor="steelblue"
+              needleTransitionDuration={8000}
+              needleTransition="easeElastic"
+              startColor="#33CC33"
+              endColor="#FF471A"
+              maxValue={10}
+            />
+          </GridItem>
+          <GridItem xs={12} sm={12} md={3}>
+            <ReactSpeedometer
+              value={this.state.data[this.state.node_number - 1].temperature}
+              needleColor="steelblue"
+              needleTransitionDuration={8000}
+              needleTransition="easeElastic"
+              maxValue={900}
+              startColor="#33CC33"
+              endColor="#FF471A"
+            />
+          </GridItem>
+          <GridItem xs={12} sm={12} md={3}>
+            <ReactSpeedometer
+              value={this.state.data[this.state.node_number - 1].humidity}
+              needleColor="steelblue"
+              needleTransitionDuration={8000}
+              needleTransition="easeElastic"
+              maxValue={18}
+              startColor="#33CC33"
+              endColor="#FF471A"
+            />
+          </GridItem>
+          <GridItem xs={12} sm={12} md={3}>
+            <ReactSpeedometer
+              value={this.state.data[this.state.node_number - 1].rainfall}
+              needleColor="steelblue"
+              needleTransitionDuration={8000}
+              needleTransition="easeElastic"
+              maxValue={5}
+              startColor="#33CC33"
+              endColor="#FF471A"
+            />
+          </GridItem>
+        </GridContainer>
+      );
+    }
     return (
       <GridContainer>
-        <TextField
-          id="node_number"
-          label="Node Number"
-          placeholder="Node Number"
-          className={classes.textField}
-          value={this.state.node_number}
-          onChange={this.handleChange("node_number")}
-          margin="normal"
-        />
-        <Button
-          variant="contained"
-          className={classes.button}
-          onClick={this.getdata}
-        >
-          Get Data
-        </Button>
-        <h3>Wind</h3>
-        <ReactSpeedometer
-          value={500}
-          needleColor="steelblue"
-          needleTransitionDuration={8000}
-          needleTransition="easeElastic"
-        />
-
+        <GridItem xs={12} sm={12} md={12}>
+          <TextField
+            id="node_number"
+            label="Node Number"
+            placeholder="Node Number"
+            className={classes.textField}
+            value={this.state.node_number}
+            onChange={this.handleChange("node_number")}
+            margin="normal"
+          />
+        </GridItem>
+        {/* <GridItem xs={12} sm={12} md={3}>
+          <ReactSpeedometer
+            value={0}
+            needleColor="steelblue"
+            needleTransitionDuration={8000}
+            needleTransition="easeElastic"
+          />
+        </GridItem>
+        <GridItem xs={12} sm={12} md={3}>
+          <ReactSpeedometer
+            value={500}
+            needleColor="steelblue"
+            needleTransitionDuration={8000}
+            needleTransition="easeElastic"
+          />
+        </GridItem>
+        <GridItem xs={12} sm={12} md={3}>
+          <ReactSpeedometer
+            value={500}
+            needleColor="steelblue"
+            needleTransitionDuration={8000}
+            needleTransition="easeElastic"
+          />
+        </GridItem>
+        <GridItem xs={12} sm={12} md={3}>
+          <ReactSpeedometer
+            value={500}
+            needleColor="steelblue"
+            needleTransitionDuration={8000}
+            needleTransition="easeElastic"
+          />
+        </GridItem> */}
+        {speedometer}
         <GridItem xs={12} sm={12} md={12}>
           <Card plain>
             <CardHeader plain color="success">
