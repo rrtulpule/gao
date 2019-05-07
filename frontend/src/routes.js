@@ -16,7 +16,7 @@ import Icons from "views/Icons/Icons.jsx";
 import Maps from "views/Maps/Maps.jsx";
 import NotificationsPage from "views/Notifications/Notifications.jsx";
 import AddComponent from "./views/UserProfile/AddComponent";
-
+import NodeDashboard from "./views/NodeDashboard/NodeDashboard";
 
 const dashboardRoutes = [
   {
@@ -24,6 +24,13 @@ const dashboardRoutes = [
     name: "Dashboard",
     icon: Dashboard,
     component: DashboardPage,
+    layout: "/admin"
+  },
+  {
+    path: "/nodeDashboard",
+    name: "Node Dashboard",
+    icon: BubbleChart,
+    component: NodeDashboard,
     layout: "/admin"
   },
   {
@@ -47,7 +54,7 @@ const dashboardRoutes = [
     component: TableList,
     layout: "/admin"
   },
-  
+
   // {
   //   path: "/typography",
   //   name: "Typography",
@@ -62,7 +69,7 @@ const dashboardRoutes = [
     icon: LocationOn,
     component: Maps,
     layout: "/admin"
-  },
+  }
   // {
   //   path: "/notifications",
   //   name: "Notifications",
