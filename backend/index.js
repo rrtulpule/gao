@@ -41,8 +41,8 @@ app.use(function(req, res, next) {
   var NodeSchema = mongoose.Schema({
     nodeId: String,
     installed_by: String,
-    longitude: String,
-    latitude: String,
+    longitude: Number,
+    latitude: Number,
     city: String,
     county: String,
     clusterid: String,
@@ -298,12 +298,30 @@ app.get('/getnode', function(req,res)
     
     
 
-    // res.writeHead(200,{
+  
+})
+
+app.get('/getclusters', function(req,res)
+{
+    console.log("Inside get cluster"); 
+    var Cluster = mongoose.model('clusterdata', ClusterSchema, 'clusterdata'); 
+
+    Cluster.find({}, function(err, users) {
+        if(err)
+        {
+            res.status(400).send("Unsuccessful");
+        }
+       
+        console.log(users);
+        res.status(200).send(users);
+    //      res.writeHead(200,{
     //     'Content-Type' : 'application/json'
-    // });
-    // console.log("Books : ",JSON.stringify(books));
-    // res.end(JSON.stringify(books));
-    //res.send(books)
+    // });  
+      });
+    
+    
+
+  
 })
 //start your server on port 3001
 app.listen(3001);

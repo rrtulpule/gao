@@ -29,8 +29,9 @@ import CardHeader from "components/Card/CardHeader.jsx";
 import CardIcon from "components/Card/CardIcon.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
-import Clock from 'react-live-clock';
-import AnalogClock, { Themes } from 'react-analog-clock';
+import Clock from "react-live-clock";
+import AnalogClock, { Themes } from "react-analog-clock";
+import axios from "axios";
 
 import { bugs, website, server } from "variables/general.jsx";
 // import "../Dashboard/compass.css";
@@ -41,11 +42,14 @@ import {
 } from "variables/charts.jsx";
 
 import dashboardStyle from "assets/jss/material-dashboard-react/views/dashboardStyle.jsx";
+import { BACKEND_HOST } from "../../host_config";
 
 class Dashboard extends React.Component {
   state = {
     value: 0,
-    
+    data: [],
+    clusterdata: [],
+    highrisk: 0
   };
   handleChange = (event, value) => {
     this.setState({ value });
@@ -54,25 +58,80 @@ class Dashboard extends React.Component {
   handleChangeIndex = index => {
     this.setState({ value: index });
   };
+  componentDidMount() {
+    axios.get(BACKEND_HOST + "/getnode").then(response => {
+      //console.log("Status Code : ",response.data);
+      //   if(response.data === 400){
+
+      //     window.location = "/login"
+      // }
+      // console.log("in get");
+      // console.log(response);
+      this.loadData(response);
+     // console.log(this.state.data);
+      
+      // this.sortAscending();
+    });
+    axios.get(BACKEND_HOST + "/getclusters").then(response => {
+      //console.log("Status Code : ",response.data);
+      //   if(response.data === 400){
+
+      //     window.location = "/login"
+      // }
+      // console.log("in get");
+      // console.log(response);
+      this.loadDataCluster(response);
+     
+    });
+    this.calanger();
+  }
+  calanger() {
+    for (var i = 0; i < this.state.data; i++) {
+      var temp =
+        this.state.data[i].humidity +
+        this.state.data[i].temperature +
+        this.state.data[i].wind +
+        this.state.data[i].rainfall;
+      console.log("temp", temp);
+      if (temp % 2 == 0) {
+        this.setState({
+          highrisk: this.state.highrisk + 1
+        });
+      }
+    }
+  }
+  loadData(response) {
+    const data = JSON.stringify(response.data);
+
+    this.setState({
+      data: this.state.data.concat(response.data)
+    });
+  }
+  loadDataCluster(response) {
+    this.setState({
+      clusterdata: this.state.clusterdata.concat(response.data)
+    });
+  }
   render() {
     const { classes } = this.props;
+   
     return (
       <div>
-      
         <GridContainer>
-        <GridItem xs={12} sm={6} md={3}>
+          <GridItem xs={12} sm={6} md={3}>
             <Card>
               <CardHeader color="warning" stats icon>
                 <CardIcon color="success">
-                  {/* <AnalogClock theme={Themes.dark} width={70}/> */}
-                  
+                  <AnalogClock theme={Themes.dark} width={60} height={60} />
                 </CardIcon>
-                <p className={classes.cardCategory}><Clock
-        date={'1997-12-31T14:15:23+01:00'}
-        format={'dddd, MMMM Mo, YYYY, h:mm:ss A'}
-        ticking={true}
-        timezone={'Australia/Sydney'} /></p>
-               
+                <p className={classes.cardCategory}>
+                  <Clock
+                    date={"2019-07-05T01:58:23"}
+                    format={"dddd, MMMM Mo, YYYY, h:mm:ss A"}
+                    ticking={true}
+                    timezone={"US/Pacific"}
+                  />
+                </p>
               </CardHeader>
               <CardFooter stats>
                 <div className={classes.stats}>
@@ -80,23 +139,22 @@ class Dashboard extends React.Component {
                     <Warning />
                   </Danger>
                   <a href="#pablo" onClick={e => e.preventDefault()}>
-                   All currently active
+                    All currently active
                   </a>
                 </div>
               </CardFooter>
             </Card>
           </GridItem>
-      
-        
+
           <GridItem xs={12} sm={6} md={3}>
             <Card>
               <CardHeader color="warning" stats icon>
                 <CardIcon color="warning">
                   <Icon>content_copy</Icon>
                 </CardIcon>
-                <p className={classes.cardCategory}>Total Clusters</p>
+                <p className={classes.cardCategory}>Total Nodes</p>
                 <h3 className={classes.cardTitle}>
-                  8 <small>clusters</small>
+                  {this.state.data.length} <small>Nodes</small>
                 </h3>
               </CardHeader>
               <CardFooter stats>
@@ -105,7 +163,7 @@ class Dashboard extends React.Component {
                     <Warning />
                   </Danger>
                   <a href="#pablo" onClick={e => e.preventDefault()}>
-                   All currently active
+                    All currently active
                   </a>
                 </div>
               </CardFooter>
@@ -117,8 +175,10 @@ class Dashboard extends React.Component {
                 <CardIcon color="success">
                   <Store />
                 </CardIcon>
-                <p className={classes.cardCategory}>Acre Coverted</p>
-                <h3 className={classes.cardTitle}>~7000</h3>
+                <p className={classes.cardCategory}>Total Clusters</p>
+                <h3 className={classes.cardTitle}>
+                  {this.state.clusterdata.length} <small>Clusters</small>
+                </h3>
               </CardHeader>
               <CardFooter stats>
                 <div className={classes.stats}>
@@ -135,7 +195,9 @@ class Dashboard extends React.Component {
                   <Icon>info_outline</Icon>
                 </CardIcon>
                 <p className={classes.cardCategory}>Red Alert Areas</p>
-                <h3 className={classes.cardTitle}>1</h3>
+                <h3 className={classes.cardTitle}>
+                   {this.state.highrisk}
+                </h3>
               </CardHeader>
               <CardFooter stats>
                 <div className={classes.stats}>
@@ -176,12 +238,12 @@ class Dashboard extends React.Component {
                 />
               </CardHeader>
               <CardBody>
-                <h4 className={classes.cardTitle}>Daily Average Temperature</h4>
+                <h4 className={classes.cardTitle}>Casualties in wildfires</h4>
                 <p className={classes.cardCategory}>
                   {/* <span className={classes.successText}>
                     <ArrowUpward className={classes.upArrowCardCategory} /> 55%
                   </span>{" "} */}
-                  Weekly Avg. Temperature of San Jose.
+                  Total Casualties per Yer
                 </p>
               </CardBody>
               <CardFooter chart>
@@ -204,10 +266,10 @@ class Dashboard extends React.Component {
                 />
               </CardHeader>
               <CardBody>
-                <h4 className={classes.cardTitle}>Total Wildfires in a month</h4>
-                <p className={classes.cardCategory}>
-                  Last Years Wildfire Data 
-                </p>
+                <h4 className={classes.cardTitle}>
+                  Total Wildfires in a month
+                </h4>
+                <p className={classes.cardCategory}>Last Years Wildfire Data</p>
               </CardBody>
               <CardFooter chart>
                 <div className={classes.stats}>
@@ -240,9 +302,6 @@ class Dashboard extends React.Component {
               </CardFooter>
             </Card>
           </GridItem>
-
-
-          
         </GridContainer>
         {/* <GridContainer>
           <GridItem xs={12} sm={12} md={6}>

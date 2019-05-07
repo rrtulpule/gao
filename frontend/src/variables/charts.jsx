@@ -1,31 +1,26 @@
-// ##############################
-// // // javascript library for creating charts
-// #############################
+
 var Chartist = require("chartist");
 
-// ##############################
-// // // variables used to create animation on charts
-// #############################
 var delays = 80,
   durations = 500;
 var delays2 = 80,
   durations2 = 500;
 
 // ##############################
-// // // Daily Sales
+// // // 
 // #############################
 
 const dailySalesChart = {
   data: {
-    labels: ["M", "T", "W", "T", "F", "S", "S"],
-    series: [[76, 72, 70, 71, 76, 79, 78]]
+    labels: ["2012","2013", "2014", "2015", "2016", "2017", "2018"],
+    series: [[0, 1, 2, 6, 8, 45, 104]]
   },
   options: {
     lineSmooth: Chartist.Interpolation.cardinal({
       tension: 0
     }),
     low: 0,
-    high: 100, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
+    high: 150, 
     chartPadding: {
       top: 0,
       right: 0,
@@ -66,7 +61,7 @@ const dailySalesChart = {
 };
 
 // ##############################
-// // // Email Subscriptions
+// // // total fire
 // #############################
 
 const emailsSubscriptionChart = {
@@ -85,14 +80,14 @@ const emailsSubscriptionChart = {
       "Nov",
       "Dec"
     ],
-    series: [[3, 12, 3, 0, 0, 4, 10, 17, 24, 7, 3, 11]]
+    series: [[0, 0, 1, 1, 2,13, 14, 12, 6, 5, 4, 0]]
   },
   options: {
     axisX: {
       showGrid: false
     },
     low: 0,
-    high: 30,
+    high: 15,
     chartPadding: {
       top: 0,
       right: 5,
@@ -131,7 +126,7 @@ const emailsSubscriptionChart = {
 };
 
 // ##############################
-// // // Completed Tasks
+// // // rainfall
 // #############################
 
 const completedTasksChart = {
@@ -150,14 +145,14 @@ const completedTasksChart = {
       "Nov",
       "Dec"
     ],
-    series: [[230, 550, 450, 300, 280, 240, 200, 190,100,130,150,280,200]]
+    series: [[81, 10, 69, 31, 0, 0, 0, 0,17,1,49,39]]
   },
   options: {
     lineSmooth: Chartist.Interpolation.cardinal({
       tension: 0
     }),
     low: 0,
-    high: 700, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
+    high: 90,
     chartPadding: {
       top: 0,
       right: 0,
@@ -201,3 +196,8 @@ module.exports = {
   emailsSubscriptionChart,
   completedTasksChart
 };
+
+
+//https://www.currentresults.com/Yearly-Weather/USA/CA/San-Jose/recent-11_november-san-jose-temperature-precipitation.php
+//https://en.wikipedia.org/wiki/2018_California_wildfires
+//https://calmatters.org/articles/california-wildfires-statistics-tracker/

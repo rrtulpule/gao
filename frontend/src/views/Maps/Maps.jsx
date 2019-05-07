@@ -1,10 +1,15 @@
 import React, { Component } from "react";
+import { withProps, withStateHandlers } from "recompose";
+import { bindActionCreators, compose } from "redux";
 import {
   withScriptjs,
   withGoogleMap,
   GoogleMap,
-  Marker
+  Marker,
+  InfoWindow
 } from "react-google-maps";
+import { BACKEND_HOST } from "../../host_config";
+import axios from "axios";
 
 // function Maps({ ...props }) {
 
@@ -13,17 +18,63 @@ class Maps extends Component {
     super(props);
 
     this.state = {
-      data: "aa"
+      data: [
+        // {
+        //   lat: 37.14546191953482,
+        //   lng: -121.41603810703123
+        // },
+        // {
+        //   lat: 37.52906647204312,
+        //   lng: -122.36065669390734
+        // }
+      ]
     };
+  }
+  componentDidMount() {
+    axios.get(BACKEND_HOST + "/getnode").then(response => {
+      //console.log("Status Code : ",response.data);
+      //   if(response.data === 400){
+
+      //     window.location = "/login"
+      // }
+      console.log("in get");
+      console.log(response);
+      this.loadData(response);
+      console.log(this.state.data);
+    });
+  }
+  loadData(response) {
+    this.setState({
+      data: this.state.data.concat(response.data)
+    });
   }
   render() {
     const { classes } = this.props;
 
+    let dataentr = [];
+    for (var i = 0; i < this.state.data.length; i++) {
+      dataentr.push(
+        <Marker
+          position={{
+            lat: this.state.data[i].latitude,
+            lng: this.state.data[i].longitude
+          }}
+          label={this.state.data[i].clusterid}
+        />
+      );
+    }
+    //console.log("rrr");
+    //console.log();
     const CustomSkinMap = withScriptjs(
       withGoogleMap(props => (
         <GoogleMap
           defaultZoom={13}
-          defaultCenter={{ lat: 37.496904, lng: -122.3330573 }}
+          defaultCenter={{
+            //lat: this.state.data[0].lat,
+            //lng: this.state.data[0].lng
+            lat: 37.14546191953482,
+            lng: -121.41603810703123
+          }}
           defaultOptions={{
             scrollwheel: false,
             zoomControl: true,
@@ -89,15 +140,16 @@ class Maps extends Component {
             ]
           }}
         >
-          <Marker
-            position={{ lat: 37.336789521171994, lng: -121.89335409468015 }}
-          />
+          {/* <Marker
+            position={{ lat: this.state.data[0].lat, lng:  this.state.data[0].lng }}
+          /> */}
 
-          <Marker position={{ lat: 37.14546191953482, lng: -121.41603810703123 }} />
+          {/* <Marker position={{ lat: 37.14546191953482, lng: -121.41603810703123 }} />
           <Marker position={{ lat: 37.52906647204312, lng: -122.36065669390734 }} />
 
           <Marker position={{ lat: 36.9749416, lng: -122.0285259 }} />
-          <Marker position={{ lat: 36.9749416, lng: -122.0285259 }} />
+          <Marker position={{ lat: 36.9749416, lng: -122.0285259 }} /> */}
+          {dataentr}
         </GoogleMap>
       ))
     );
@@ -109,16 +161,6 @@ class Maps extends Component {
         mapElement={<div style={{ height: `100%` }} />}
         props={this.state.data}
       />
-      // <GoogleMapReact
-      //   bootstrapURLKeys={{
-      //     key:
-      //       "https://maps.googleapis.com/maps/api/js?key=AIzaSyAqVpCP6H8Hg5k7HI-NiClJjcKDnLRk26k"
-      //   }}
-      //   defaultCenter={{ lat: 37.496904, lng: -122.3330573 }}
-      //   defaultZoom={this.props.zoom}
-      // >
-      //   <AnyReactComponent lat={59.955413} lng={30.337844} text="My Marker" />
-      // </GoogleMapReact>
     );
   }
   // render() {
@@ -137,12 +179,15 @@ class Maps extends Component {
   //   const MarkerPoint = compose(marketState)(props => (
   //     <Marker
   //       key={props.marker.input_session}
-  //       position={{ lat: props.marker.lat, lng: props.marker.lng }}
+  //       position={{ lat: this.state.data[0].lat, lng: this.state.data[0].lng }}
   //       onClick={() => props.onMarkerClick()}
   //     >
   //       {props.isOpen && (
   //         <InfoWindow
-  //           position={{ lat: props.marker.lat, lng: props.marker.lng }}
+  //           position={{
+  //             lat: this.state.data[0].lat,
+  //             lng: this.state.data[0].lng
+  //           }}
   //           onCloseClick={() => props.onMarkerClick()}
   //         >
   //           <h6>Data:{props.marker.input_session}</h6>
@@ -156,15 +201,15 @@ class Maps extends Component {
   //     withGoogleMap
   //   )(props => (
   //     <GoogleMap
-  //       key={props.data.name}
+  //       key={1}
   //       defaultZoom={18}
   //       defaultCenter={{
-  //         lat: props.data.values[0].lat,
-  //         lng: props.data.values[0].lng
+  //         lat: this.state.data[0].lat,
+  //         lng: this.state.data[0].lng
   //       }}
   //     >
-  //       {props.data.values.map(marker => {
-  //         return <MarkerPoint marker={marker} />;
+  //       {this.state.data.values.map(marker => {
+  //         return <Marker key={1} marker={marker} />;
   //       })}
   //     </GoogleMap>
   //   ));
@@ -172,7 +217,7 @@ class Maps extends Component {
   //   return (
   //     <div>
   //       <MapWithMarkers
-  //         data={this.props.data}
+  //         data={this.state.data}
   //         googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqVpCP6H8Hg5k7HI-NiClJjcKDnLRk26k"
   //         loadingElement={<div style={{ height: `100%` }} />}
   //         containerElement={<div style={{ height: `400px` }} />}
