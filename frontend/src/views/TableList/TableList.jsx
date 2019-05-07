@@ -17,6 +17,7 @@ import TableRow from "@material-ui/core/TableRow";
 import { BACKEND_HOST } from "../../host_config";
 import { TextField } from "@material-ui/core";
 import Button from "components/CustomButtons/Button.jsx";
+import ReactSpeedometer from "react-d3-speedometer";
 const styles = {
   cardCategoryWhite: {
     "&,& a,& a:hover,& a:focus": {
@@ -53,7 +54,7 @@ class TableList extends Component {
 
     this.state = {
       data: [],
-      node_number: ''
+      node_number: "1"
     };
     this.handleChange = this.handleChange.bind(this);
     this.getdata = this.getdata.bind(this);
@@ -132,6 +133,7 @@ class TableList extends Component {
 
     return (
       <GridContainer>
+       <GridItem xs={12} sm={12} md={12}>
        <TextField
           id="node_number"
           label="Node Number"
@@ -148,6 +150,39 @@ class TableList extends Component {
         >
         Get Data
       </Button>
+      </GridItem>
+      <GridItem xs={12} sm={12} md={3}>
+      <ReactSpeedometer
+                value={0 }
+                needleColor="steelblue"
+                needleTransitionDuration={8000}
+                needleTransition="easeElastic"
+              />
+              </GridItem>
+              <GridItem xs={12} sm={12} md={3}>
+              <ReactSpeedometer
+                value={500}
+                needleColor="steelblue"
+                needleTransitionDuration={8000}
+                needleTransition="easeElastic"
+              />
+              </GridItem>
+              <GridItem xs={12} sm={12} md={3}>
+              <ReactSpeedometer
+                value={500}
+                needleColor="steelblue"
+                needleTransitionDuration={8000}
+                needleTransition="easeElastic"
+              />
+              </GridItem>
+               <GridItem xs={12} sm={12} md={3}>
+               <ReactSpeedometer
+                value={500}
+                needleColor="steelblue"
+                needleTransitionDuration={8000}
+                needleTransition="easeElastic"
+              />
+              </GridItem>
         <GridItem xs={12} sm={12} md={12}>
           <Card plain>
             <CardHeader plain color="success">
