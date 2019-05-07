@@ -86,7 +86,7 @@ class TableList extends Component {
       this.state.data[data].temperature +
       this.state.data[data].wind +
       this.state.data[data].rainfall;
-    if (temp %2  == 0) {
+    if (temp >800) {
       return "High";
     } else {
       return "Low";
