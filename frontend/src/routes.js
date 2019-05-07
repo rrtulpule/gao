@@ -49,7 +49,7 @@ const dashboardRoutes = [
   },
   {
     path: "/table",
-    name: "Sensor List",
+    name: "Node Details",
     icon: "content_paste",
     component: TableList,
     layout: "/admin"

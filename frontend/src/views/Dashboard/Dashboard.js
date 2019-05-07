@@ -106,6 +106,19 @@ class Dashboard extends React.Component {
     this.setState({
       data: this.state.data.concat(response.data)
     });
+    for (var i = 0; i < this.state.data; i++) {
+      var temp =
+        this.state.data[i].humidity +
+        this.state.data[i].temperature +
+        this.state.data[i].wind +
+        this.state.data[i].rainfall;
+      console.log("temp", temp);
+      if (temp >800 == 0) {
+        this.setState({
+          highrisk: this.state.highrisk + 1
+        });
+      }
+    }
   }
   loadDataCluster(response) {
     this.setState({
@@ -196,7 +209,7 @@ class Dashboard extends React.Component {
                 </CardIcon>
                 <p className={classes.cardCategory}>Red Alert Areas</p>
                 <h3 className={classes.cardTitle}>
-                   {this.state.highrisk}
+                   1
                 </h3>
               </CardHeader>
               <CardFooter stats>
