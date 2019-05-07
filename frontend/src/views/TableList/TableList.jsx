@@ -64,7 +64,7 @@ class TableList extends Component {
       console.log(response);
       this.loadData(response);
       console.log(this.state.data);
-     // this.sortAscending();
+      // this.sortAscending();
     });
   }
   loadData(response) {
@@ -96,7 +96,7 @@ class TableList extends Component {
   render() {
     const { classes } = this.props;
     let dataentr = [];
-   
+
     for (var i = 0; i < this.state.data.length; i++) {
       dataentr.push(
         <TableRow key={this.state.data[i].nodeID}>
