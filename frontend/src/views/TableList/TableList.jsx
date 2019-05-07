@@ -17,6 +17,9 @@ import TableRow from "@material-ui/core/TableRow";
 import { BACKEND_HOST } from "../../host_config";
 import { TextField } from "@material-ui/core";
 import Button from "components/CustomButtons/Button.jsx";
+import NodeDashboard from "../NodeDashboard/NodeDashboard";
+import { Container, Row, Col } from "react-grid-system";
+import ReactSpeedometer from "react-d3-speedometer";
 const styles = {
   cardCategoryWhite: {
     "&,& a,& a:hover,& a:focus": {
@@ -53,7 +56,7 @@ class TableList extends Component {
 
     this.state = {
       data: [],
-      node_number: ''
+      node_number: ""
     };
     this.handleChange = this.handleChange.bind(this);
     this.getdata = this.getdata.bind(this);
@@ -86,7 +89,7 @@ class TableList extends Component {
       this.state.data[data].temperature +
       this.state.data[data].wind +
       this.state.data[data].rainfall;
-    if (temp >800) {
+    if (temp > 800) {
       return "High";
     } else {
       return "Low";
@@ -106,7 +109,7 @@ class TableList extends Component {
   getdata = e => {
     e.preventDefault();
     const data = {
-      node_number: this.state.node_number,
+      node_number: this.state.node_number
     };
     console.log(data);
   };
@@ -132,7 +135,7 @@ class TableList extends Component {
 
     return (
       <GridContainer>
-       <TextField
+        <TextField
           id="node_number"
           label="Node Number"
           placeholder="Node Number"
@@ -146,8 +149,16 @@ class TableList extends Component {
           className={classes.button}
           onClick={this.getdata}
         >
-        Get Data
-      </Button>
+          Get Data
+        </Button>
+        <h3>Wind</h3>
+        <ReactSpeedometer
+          value={500}
+          needleColor="steelblue"
+          needleTransitionDuration={8000}
+          needleTransition="easeElastic"
+        />
+
         <GridItem xs={12} sm={12} md={12}>
           <Card plain>
             <CardHeader plain color="success">

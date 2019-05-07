@@ -17,6 +17,8 @@ import Maps from "views/Maps/Maps.jsx";
 import NotificationsPage from "views/Notifications/Notifications.jsx";
 import AddComponent from "./views/UserProfile/AddComponent";
 import NodeDashboard from "./views/NodeDashboard/NodeDashboard";
+import Billing from "./views/Billing/Billing";
+import Receipt from "@material-ui/icons/AddShoppingCart";
 
 const dashboardRoutes = [
   {
@@ -68,6 +70,14 @@ const dashboardRoutes = [
     name: "Maps",
     icon: LocationOn,
     component: Maps,
+    layout: "/admin"
+  },
+
+  {
+    path: "/billing",
+    name: "Billing",
+    icon: Receipt,
+    component: Billing,
     layout: "/admin"
   }
   // {
