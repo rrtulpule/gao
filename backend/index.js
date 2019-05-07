@@ -274,6 +274,37 @@ app.get('/home', function(req,res){
     // res.end(JSON.stringify(books));
     //res.send(books)
 })
+app.get('/getnode', function(req,res)
+{
+    console.log("Inside get node"); 
+    var Node = mongoose.model('nodedata', NodeSchema, 'nodedata');  
+    Node.find({}, function(err, users) {
+        if(err)
+        {
+            res.status(400).send("Unsuccessful");
+        }
+        var userMap = {};
+    
+        users.forEach(function(user) {
+          userMap[user._id] = user;
+        });
+        console.log(userMap);
+        console.log(users);
+        res.status(200).send(users);
+    //      res.writeHead(200,{
+    //     'Content-Type' : 'application/json'
+    // });  
+      });
+    
+    
+
+    // res.writeHead(200,{
+    //     'Content-Type' : 'application/json'
+    // });
+    // console.log("Books : ",JSON.stringify(books));
+    // res.end(JSON.stringify(books));
+    //res.send(books)
+})
 //start your server on port 3001
 app.listen(3001);
 console.log("Server Listening on port 3001");

@@ -17,6 +17,7 @@ import "react-confirm-alert/src/react-confirm-alert.css";
 import avatar from "assets/img/faces/marc.jpg";
 import { TextField } from "@material-ui/core";
 import axios from "axios";
+import { BACKEND_HOST } from "../../host_config"
 
 const styles = {
   cardCategoryWhite: {
@@ -37,7 +38,7 @@ const styles = {
   }
 };
 
-class UserProfile extends Component {
+class AddCompomemt extends Component {
   constructor(props) {
     super(props);
 
@@ -92,7 +93,7 @@ class UserProfile extends Component {
     console.log(data);
     axios.defaults.withCredentials = true;
 
-    axios.post("http://localhost:3001/addcluster", data).then(response => {
+    axios.post(BACKEND_HOST + "/addcluster", data).then(response => {
       console.log("Status Code : ", response.status);
       if (response.status === 200) {
         this.setState({
@@ -119,7 +120,7 @@ class UserProfile extends Component {
     console.log(data);
     axios.defaults.withCredentials = true;
 
-    axios.post("http://localhost:3001/deletecluster", data).then(response => {
+    axios.post(BACKEND_HOST + "/deletecluster", data).then(response => {
       console.log("Status Code : ", response.status);
       if (response.status === 200) {
         this.setState({
@@ -252,4 +253,4 @@ class UserProfile extends Component {
     );
   }
 }
-export default withStyles(styles)(UserProfile);
+export default withStyles(styles)(AddCompomemt);

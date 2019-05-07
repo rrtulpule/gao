@@ -17,6 +17,7 @@ import "react-confirm-alert/src/react-confirm-alert.css";
 import avatar from "assets/img/faces/marc.jpg";
 import TextField from "@material-ui/core/TextField";
 import axios from "axios";
+import { BACKEND_HOST } from "../../host_config"
 
 const styles = {
   cardCategoryWhite: {
@@ -113,7 +114,7 @@ class UserProfile extends Component {
     console.log(data);
     axios.defaults.withCredentials = true;
 
-    axios.post("http://localhost:3001/addnode", data).then(response => {
+    axios.post(BACKEND_HOST + "/addnode", data).then(response => {
       console.log("Status Code : ", response.status);
       if (response.status === 200) {
         this.setState({
@@ -147,7 +148,7 @@ class UserProfile extends Component {
     console.log(data);
     axios.defaults.withCredentials = true;
 
-    axios.post("http://localhost:3001/updatenode", data).then(response => {
+    axios.post(BACKEND_HOST + "/updatenode", data).then(response => {
       console.log("Status Code : ", response.status);
       if (response.status === 200) {
         this.setState({
@@ -176,7 +177,7 @@ class UserProfile extends Component {
     console.log(data);
     axios.defaults.withCredentials = true;
 
-    axios.post("http://localhost:3001/deletenode", data).then(response => {
+    axios.post(BACKEND_HOST + "/deletenode", data).then(response => {
       console.log("Status Code : ", response.status);
       if (response.status === 200) {
         this.setState({

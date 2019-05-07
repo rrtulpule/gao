@@ -1,14 +1,20 @@
-import React from "react";
+import React, { Component } from "react";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 // core components
 import GridItem from "components/Grid/GridItem.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
-import Table from "components/Table/Table.jsx";
+import Tablejsx from "components/Table/Table.jsx";
 import Card from "components/Card/Card.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
 import CardBody from "components/Card/CardBody.jsx";
-
+import axios from "axios";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import { BACKEND_HOST } from "../../host_config";
 const styles = {
   cardCategoryWhite: {
     "&,& a,& a:hover,& a:focus": {
@@ -39,70 +45,120 @@ const styles = {
   }
 };
 
-function TableList(props) {
-  const { classes } = props;
-  return (
-    <GridContainer>
-      {/* <GridItem xs={12} sm={12} md={12}>
-        <Card>
-          <CardHeader color="primary">
-            <h4 className={classes.cardTitleWhite}>Simple Table</h4>
-            <p className={classes.cardCategoryWhite}>
-              Here is a subtitle for this table
-            </p>
-          </CardHeader>
-          <CardBody>
-            <Table
-              tableHeaderColor="primary"
-              tableHead={["Name", "Country", "City", "Salary"]}
-              tableData={[
-                ["Dakota Rice", "Niger", "Oud-Turnhout", "$36,738"],
-                ["Minerva Hooper", "Curaçao", "Sinaai-Waas", "$23,789"],
-                ["Sage Rodriguez", "Netherlands", "Baileux", "$56,142"],
-                ["Philip Chaney", "Korea, South", "Overland Park", "$38,735"],
-                ["Doris Greene", "Malawi", "Feldkirchen in Kärnten", "$63,542"],
-                ["Mason Porter", "Chile", "Gloucester", "$78,615"]
-              ]}
-            />
-          </CardBody>
-        </Card>
-      </GridItem> */}
-      <GridItem xs={12} sm={12} md={12}>
-        <Card plain>
-          <CardHeader plain color="success">
-            <h4 className={classes.cardTitleWhite}>
-              Node Cluter Data
-            </h4>
-            <p className={classes.cardCategoryWhite}>
-              Here are all the clusters on the field.
-            </p>
-          </CardHeader>
-          <CardBody>
-            <Table
-              tableHeaderColor="primary"
-              tableHead={[
-                "ID",
-                "City",
-                "County",
-                "Longitude",
-                "Latitude",
-                "Postal Code",
-                "Installed By"
-              ]}
-              tableData={[
-                ["1", "San Mateo", "San Mateo", "37.5630 ", "122.3255","94403","rajas"],
-                ["2", "San Jose", "Santa Clara", "37.3382 ", "121.8863","95110","rajas"],
-                ["3", "Santa Cruz", "Santa Cruz", "37.3541 ", "121.9552","95050","rajas"],
-                ["4", "Morgan Hill", "Santa Clara", "37.1706 ", "121.4183","95037","rajas"],
-               
-              
-              ]}
-            />
-          </CardBody>
-        </Card>
-      </GridItem>
-    </GridContainer>
-  );
+class TableList extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      data: []
+    };
+  }
+  componentDidMount() {
+    axios.get(BACKEND_HOST + "/getnode").then(response => {
+      //console.log("Status Code : ",response.data);
+      //   if(response.data === 400){
+
+      //     window.location = "/login"
+      // }
+      console.log("in get");
+      console.log(response);
+      this.loadData(response);
+      console.log(this.state.data);
+     // this.sortAscending();
+    });
+  }
+  loadData(response) {
+    const data = JSON.stringify(response.data);
+
+    this.setState({
+      data: this.state.data.concat(response.data)
+      //ownerkey :response.data[0].ownerkey
+    });
+  }
+  calanger(data) {
+    var temp =
+      this.state.data[data].humidity +
+      this.state.data[data].temperature +
+      this.state.data[data].wind +
+      this.state.data[data].rainfall;
+    if (temp % 3 == 0) {
+      return "High";
+    } else {
+      return "Low";
+    }
+  }
+  sortAscending = () => {
+    const { data } = this.state;
+    data.sort((a, b) => a - b);
+    this.setState({ data: data });
+    console.log(this.state.data);
+  };
+  render() {
+    const { classes } = this.props;
+    let dataentr = [];
+   
+    for (var i = 0; i < this.state.data.length; i++) {
+      dataentr.push(
+        <TableRow key={this.state.data[i].nodeID}>
+          <TableCell align="right">{this.state.data[i].nodeId}</TableCell>
+          <TableCell align="right">{this.state.data[i].city}</TableCell>
+          <TableCell align="right">{this.state.data[i].county}</TableCell>
+          <TableCell align="right">{this.state.data[i].latitude}</TableCell>
+          <TableCell align="right">{this.state.data[i].longitude}</TableCell>
+          <TableCell align="right">{this.state.data[i].postalcode}</TableCell>
+          <TableCell align="right">{this.state.data[i].installed_by}</TableCell>
+          <TableCell align="right">{this.state.data[i].clusterid}</TableCell>
+          <TableCell align="right">{this.calanger(i)}</TableCell>
+        </TableRow>
+      );
+    }
+
+    return (
+      <GridContainer>
+        <GridItem xs={12} sm={12} md={12}>
+          <Card plain>
+            <CardHeader plain color="success">
+              <h4 className={classes.cardTitleWhite}>Node Cluter Data</h4>
+              <p className={classes.cardCategoryWhite}>
+                Here are all the clusters on the field.
+              </p>
+            </CardHeader>
+            <CardBody>
+              <Table className={classes.table}>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>ID</TableCell>
+                    <TableCell align="right">City</TableCell>
+                    <TableCell align="right">County</TableCell>
+                    <TableCell align="right">Latitude</TableCell>
+                    <TableCell align="right">Longitude</TableCell>
+                    <TableCell align="right">Postal Code</TableCell>
+                    <TableCell align="right">Installed By</TableCell>
+                    <TableCell align="right">Cluser ID</TableCell>
+                    <TableCell align="right">Danger Level</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {/* {rows.map(row => (
+                    <TableRow key={row.id}>
+                      <TableCell component="th" scope="row">
+                        {row.name}
+                      </TableCell>
+                      <TableCell align="right">{row.calories}</TableCell>
+                      <TableCell align="right">{row.fat}</TableCell>
+                      <TableCell align="right">{row.carbs}</TableCell>
+                      <TableCell align="right">{row.protein}</TableCell>
+                    </TableRow>
+                  ))} */}
+                  {dataentr}
+                </TableBody>
+              </Table>
+            </CardBody>
+          </Card>
+        </GridItem>
+      </GridContainer>
+    );
+  }
 }
 
 export default withStyles(styles)(TableList);
