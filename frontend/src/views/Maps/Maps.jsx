@@ -10,6 +10,9 @@ import {
 } from "react-google-maps";
 import { BACKEND_HOST } from "../../host_config";
 import axios from "axios";
+// const {
+//   MarkerWithLabel
+// } = require("react-google-maps/lib/components/addons/MarkerWithLabel");
 
 // function Maps({ ...props }) {
 
@@ -144,18 +147,45 @@ class Maps extends Component {
             position={{ lat: this.state.data[0].lat, lng:  this.state.data[0].lng }}
           /> */}
 
-          {/* <Marker position={{ lat: 37.14546191953482, lng: -121.41603810703123 }} />
-          <Marker position={{ lat: 37.52906647204312, lng: -122.36065669390734 }} />
+          {/* <Marker
+            position={{ lat: 37.1454, lng: -121.41603810703123 }}
+            label="1"
+            labelStyle={{backgroundColor: "yellow", fontSize: "32px", padding: "16px"}}
+          /> */}
+          {/* <MarkerWithLabel
+            position={{ lat: 37.1454, lng: -121.41603810703123 }}
+            labelAnchor={new GoogleMap.maps.Point(0, 0)}
+            labelStyle={{
+              backgroundColor: "yellow",
+              fontSize: "32px",
+              padding: "16px"
+            }}
+          /> */}
+          <Marker
+            position={{ lat: 37.1454, lng: -121.41603810703123 }}
+            label="Cluster 1"
+            icon="https://img.icons8.com/ultraviolet/40/000000/map-pin.png"
+                      />
+                               <Marker
+            position={{ lat: 37.080928, lng:   -121.906357 }}
+            label="Cluster 2"
+            icon="https://img.icons8.com/ultraviolet/40/000000/map-pin.png"
+                      />
+                               <Marker
+            position={{ lat: 37.341776 , lng: -121.719589 }}
+            label="Cluster 3"
+            icon="https://img.icons8.com/ultraviolet/40/000000/map-pin.png"
+                      />
 
-          <Marker position={{ lat: 36.9749416, lng: -122.0285259 }} />
-          <Marker position={{ lat: 36.9749416, lng: -122.0285259 }} /> */}
+          {/* <Marker position={{ lat: 36.9749416, lng: -122.0285259 }} /> */}
+          {/* <Marker position={{ lat: 36.9749416, lng: -122.0285259 }} /> */}
           {dataentr}
         </GoogleMap>
       ))
     );
     return (
       <CustomSkinMap
-        googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqVpCP6H8Hg5k7HI-NiClJjcKDnLRk26k"
+        googleMapURL=""
         loadingElement={<div style={{ height: `100%` }} />}
         containerElement={<div style={{ height: `100vh` }} />}
         mapElement={<div style={{ height: `100%` }} />}
