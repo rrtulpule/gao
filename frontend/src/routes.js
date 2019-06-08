@@ -19,6 +19,8 @@ import AddComponent from "./views/UserProfile/AddComponent";
 import NodeDashboard from "./views/NodeDashboard/NodeDashboard";
 import Billing from "./views/Billing/Billing";
 import Receipt from "@material-ui/icons/AddShoppingCart";
+import News from "./views/News/News";
+import NewsIcon from "@material-ui/icons/Duo";
 
 const dashboardRoutes = [
   {
@@ -28,7 +30,7 @@ const dashboardRoutes = [
     component: DashboardPage,
     layout: "/admin"
   },
- 
+
   {
     path: "/user",
     name: "Node Management",
@@ -64,6 +66,14 @@ const dashboardRoutes = [
     name: "Maps",
     icon: LocationOn,
     component: Maps,
+    layout: "/admin"
+  },
+
+  {
+    path: "/news",
+    name: "News",
+    icon: NewsIcon,
+    component: News,
     layout: "/admin"
   },
 
