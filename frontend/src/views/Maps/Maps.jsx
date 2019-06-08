@@ -248,7 +248,7 @@ class Maps extends Component {
   //     <div>
   //       <MapWithMarkers
   //         data={this.state.data}
-  //         googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqVpCP6H8Hg5k7HI-NiClJjcKDnLRk26k"
+  //         googleMapURL=""
   //         loadingElement={<div style={{ height: `100%` }} />}
   //         containerElement={<div style={{ height: `400px` }} />}
   //         mapElement={<div style={{ height: `100%` }} />}
